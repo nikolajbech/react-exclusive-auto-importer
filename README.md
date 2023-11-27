@@ -93,7 +93,7 @@ const App = () => {
 
 ## License
 
-This extension is licensed under the [MIT License](LICENSE).
+This extension is licensed under the MIT License.
 
 ## Issues and Contributions
 

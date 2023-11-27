@@ -1,7 +1,7 @@
 {
   "name": "react-exclusive-auto-importer",
-  "displayName": "react-exclusive-auto-importer",
-  "description": "Will import specific elements from a list when saving a file if the element is not imported yet",
+  "displayName": "React Exclusive Auto Importer",
+  "description": "VS extension to auto import React components exclusively from object with names and paths",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.84.0"
@@ -13,6 +13,10 @@
     "onStartupFinished"
   ],
   "main": "./dist/extension.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nikolajbech/react-exclusive-auto-importer"
+  },
   "contributes": {
     "configuration": {
       "title": "Import Specific Elements on Save",
