@@ -122,10 +122,6 @@ export function activate() {
       }
     }
   });
-
-  vscode.window.showInformationMessage(
-    "React Exclusive Auto Importer is now active!"
-  );
 }
 
 export function deactivate() {}
