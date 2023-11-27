@@ -78,6 +78,7 @@ export function activate() {
         };
 
         const edits = new vscode.WorkspaceEdit();
+        const insertedElements: string[] = [];
 
         // Check if the component is already imported
         usedComponents.forEach((componentName) => {
@@ -86,6 +87,7 @@ export function activate() {
           }
 
           if (namedImports[componentName]) {
+            insertedElements.push(componentName);
             edits.insert(
               document.uri,
               new vscode.Position(0, 0),
@@ -101,6 +103,7 @@ export function activate() {
           }
 
           if (defaultImports[componentName]) {
+            insertedElements.push(componentName);
             edits.insert(
               document.uri,
               new vscode.Position(0, 0),
@@ -108,6 +111,11 @@ export function activate() {
             );
           }
         });
+
+        insertedElements.length > 0 &&
+          vscode.window.showInformationMessage(
+            "Auto imported: " + insertedElements.join(", ")
+          );
 
         // Apply the edits
         vscode.workspace.applyEdit(edits);
