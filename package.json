@@ -1,6 +1,6 @@
 {
-  "name": "import-specific-elements-on-save",
-  "displayName": "import-specific-elements-on-save",
+  "name": "auto-import-selected",
+  "displayName": "auto-import-selected",
   "description": "Will import specific elements from a list when saving a file if the element is not imported yet",
   "version": "0.0.1",
   "engines": {
@@ -14,12 +14,21 @@
   ],
   "main": "./dist/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "import-specific-elements-on-save.helloWorld",
-        "title": "Hello World"
+    "configuration": {
+      "title": "Import Specific Elements on Save",
+      "properties": {
+        "auto-import-selected.namedImports": {
+          "type": "object",
+          "default": {},
+          "description": "Named imports configuration"
+        },
+        "auto-import-selected.defaultImports": {
+          "type": "object",
+          "default": {},
+          "description": "Default imports configuration"
+        }
       }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "yarn run package",

@@ -1,26 +1,17 @@
 import * as vscode from "vscode";
-import * as ts from "typescript";
+import ts from "typescript";
 
-export function activate(context: vscode.ExtensionContext) {
+export function activate() {
   const configuration = vscode.workspace.getConfiguration(
-    "import-specific-elements-on-save"
-  ) as unknown as {
-    namedImports: Record<string, string>;
-    defaultImports: Record<string, string>;
-  };
+    "auto-import-selected"
+  );
 
-  console.log(configuration);
-
-  vscode.workspace.onDidSaveTextDocument((document: vscode.TextDocument) => {
-    console.log("Document saved: ", document.fileName);
-    vscode.window.showInformationMessage("Analyzing file...");
-
+  vscode.workspace.onDidSaveTextDocument(() => {
     const editor = vscode.window.activeTextEditor;
 
     if (editor) {
       const document = editor.document;
 
-      vscode.window.showInformationMessage(document.languageId);
       // Check if it's a TypeScript or JavaScript file
       if (document.languageId === "typescriptreact") {
         const fileName = document.fileName;
@@ -70,16 +61,7 @@ export function activate(context: vscode.ExtensionContext) {
 
         function visit(node: ts.Node) {
           if (ts.isJsxOpeningElement(node) && ts.isIdentifier(node.tagName)) {
-            const componentName = node.tagName.text;
-
-            console.log(node.tagName.kind);
-
-            usedComponents.add(componentName);
-
-            // // Check if the component is already imported
-            // if (!isComponentImported(componentName, sourceText)) {
-            // 	unimportedComponents.push(componentName);
-            // }
+            usedComponents.add(node.tagName.text);
           }
 
           ts.forEachChild(node, visit);
@@ -88,14 +70,14 @@ export function activate(context: vscode.ExtensionContext) {
         // Start the AST traversal
         visit(ast);
 
-        console.log(allNamedImports);
-        console.log(allDefaultImports);
-        console.log(usedComponents);
+        const namedImports = configuration.get("namedImports") as {
+          [key: string]: string;
+        };
+        const defaultImports = configuration.get("defaultImports") as {
+          [key: string]: string;
+        };
 
-        const { namedImports, defaultImports } = configuration;
-
-        const namedImportsToInsert: string[] = [];
-        const defaultImportsToInsert: string[] = [];
+        const edits = new vscode.WorkspaceEdit();
 
         // Check if the component is already imported
         usedComponents.forEach((componentName) => {
@@ -104,7 +86,11 @@ export function activate(context: vscode.ExtensionContext) {
           }
 
           if (namedImports[componentName]) {
-            namedImportsToInsert.push(namedImports[componentName]);
+            edits.insert(
+              document.uri,
+              new vscode.Position(0, 0),
+              `import { ${componentName} } from '${namedImports[componentName]}'\n`
+            );
           }
         });
 
@@ -115,89 +101,21 @@ export function activate(context: vscode.ExtensionContext) {
           }
 
           if (defaultImports[componentName]) {
-            defaultImportsToInsert.push(defaultImports[componentName]);
+            edits.insert(
+              document.uri,
+              new vscode.Position(0, 0),
+              `import ${componentName} from '${defaultImports[componentName]}'\n`
+            );
           }
-        });
-
-        console.log(namedImportsToInsert);
-        console.log(defaultImportsToInsert);
-
-        const edits = new vscode.WorkspaceEdit();
-
-        // Insert named imports
-        namedImportsToInsert.forEach((namedImport) => {
-          edits.insert(
-            document.uri,
-            new vscode.Position(0, 0),
-            `import { ${namedImport} } from "react";\n`
-          );
-        });
-
-        // Insert default imports
-        defaultImportsToInsert.forEach((defaultImport) => {
-          edits.insert(
-            document.uri,
-            new vscode.Position(0, 0),
-            `import ${defaultImport} from "react";\n`
-          );
         });
 
         // Apply the edits
         vscode.workspace.applyEdit(edits);
-
-        // // Create a TypeScript language service
-        // const service = ts.createLanguageService({
-        //   getScriptFileNames: () => [fileName],
-        //   getScriptVersion: () => "1",
-        //   getScriptSnapshot: () => ts.ScriptSnapshot.fromString(sourceText),
-        //   getCurrentDirectory: () => vscode.workspace.rootPath || "",
-        //   getCompilationSettings: () => ({}),
-        //   getDefaultLibFileName: function (
-        //     options: ts.CompilerOptions
-        //   ): string {
-        //     return ts.getDefaultLibFilePath(options);
-        //   },
-        //   readFile: function (
-        //     path: string,
-        //     encoding?: string | undefined
-        //   ): string | undefined {
-        //     if (ts.sys.fileExists(path)) {
-        //       return ts.sys.readFile(path, encoding);
-        //     } else {
-        //       return undefined;
-        //     }
-        //   },
-        //   fileExists: function (path: string): boolean {
-        //     return true;
-        //   },
-        // });
-
-        // console.log(service);
-
-        // // Get semantic diagnostics (errors) from the language service
-        // const diagnostics = service.getSemanticDiagnostics(fileName);
-        // console.log(diagnostics);
-
-        // // Check if there are any React-related diagnostics
-        // const reactDiagnostics = diagnostics.filter(
-        //   (diagnostic) =>
-        //     diagnostic.file &&
-        //     diagnostic.file.fileName === fileName &&
-        //     diagnostic.source === "react"
-        // );
-
-        // if (reactDiagnostics.length > 0) {
-        //   vscode.window.showInformationMessage("React elements not imported!");
-        // } else {
-        //   vscode.window.showInformationMessage("All good!");
-        // }
       }
     }
   });
 
-  vscode.window.showInformationMessage(
-    "import-specific-elements-on-save activated!"
-  );
+  vscode.window.showInformationMessage("Auto Import Selected is now active!");
 }
 
 export function deactivate() {}
