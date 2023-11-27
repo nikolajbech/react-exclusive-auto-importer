@@ -9,6 +9,7 @@
   "categories": [
     "Other"
   ],
+  "publisher": "Prozense",
   "activationEvents": [
     "onStartupFinished"
   ],
