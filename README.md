@@ -1,71 +1,108 @@
-# react-exclusive-auto-importer README
+# React Exclusive Auto Importer Extension
 
-This is the README for your extension "react-exclusive-auto-importer". After writing up a brief description, we recommend including the following sections.
+## Overview
+
+The React Exclusive Auto Importer is a Visual Studio Code (VSCode) extension designed to automate the import of React components in TypeScriptReact files. It analyzes your TypeScriptReact code and automatically adds import statements for the components you are using in your JSX.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- **Automatic Import:** The extension automatically identifies React components used in your TypeScriptReact files and adds import statements for them.
 
-For example if there is an image subfolder under your extension project workspace:
+- **Configuration:** You can configure named imports and default imports for specific components through the extension settings.
 
-\!\[feature X\]\(images/feature-x.png\)
+## Installation
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+1. Open VSCode.
+2. Go to the Extensions view by clicking on the Extensions icon in the Activity Bar on the side of the window or use the keyboard shortcut `Ctrl+Shift+X`.
+3. Search for "React Exclusive Auto Importer" in the Extensions view search box.
+4. Click on the "Install" button to install the extension.
 
-## Requirements
+## Usage
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+1. Ensure the extension is installed and activated.
+2. Open a TypeScriptReact file.
+3. As you write JSX code, the extension will automatically detect the components you use.
+4. If a component is not already imported, the extension will add the appropriate import statement at the beginning of the file.
 
-## Extension Settings
+## Configuration
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+You can configure the extension by modifying your VSCode settings. Add the following configuration options to your `settings.json` file:
 
-For example:
+```json
+"react-exclusive-auto-importer": {
+  "namedImports": {
+    "ComponentName": "path/to/component-file",
+    // Add other named imports as needed
+  },
+  "defaultImports": {
+    "ComponentName": "path/to/component-file",
+    // Add other default imports as needed
+  }
+}
+```
 
-This extension contributes the following settings:
+- `namedImports`: Specify named imports for specific components.
+- `defaultImports`: Specify default imports for specific components.
 
-- `myExtension.enable`: Enable/disable this extension.
-- `myExtension.thing`: Set to `blah` to do something.
+## Examples
 
-## Known Issues
+### Example 1: Basic Usage
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+```tsx
+// Before
+const App = () => {
+  return <MyComponent />;
+};
+```
 
-## Release Notes
+```tsx
+// After
+import { MyComponent } from "path/to/component-file";
 
-Users appreciate release notes as you update your extension.
+const App = () => {
+  return <MyComponent />;
+};
+```
 
-### 1.0.0
+### Example 2: Configuring Named Imports
 
-Initial release of ...
+```json
+"react-exclusive-auto-importer": {
+  "namedImports": {
+    "CustomComponent": "components/CustomComponent",
+    "AnotherComponent": "components/AnotherComponent"
+  }
+}
+```
 
-### 1.0.1
+```tsx
+// Before
+const App = () => {
+  return <CustomComponent />;
+};
+```
 
-Fixed issue #.
+```tsx
+// After
+import { CustomComponent } from "components/CustomComponent";
 
-### 1.1.0
+const App = () => {
+  return <CustomComponent />;
+};
+```
 
-Added features X, Y, and Z.
+## License
 
----
+This extension is licensed under the [MIT License](LICENSE).
 
-## Following extension guidelines
+## Issues and Contributions
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+If you encounter any issues or would like to contribute to the development of this extension, please visit the [GitHub repository](https://github.com/nikolajbech/react-exclusive-auto-importer).
 
-- [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+## Author
 
-## Working with Markdown
+Nikolaj Bech Andersen
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
+[Website](https://prozense.com)
 
-- Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-- Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-- Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-- [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-- [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+[GitHub](https://github.com/nikolajbech)
