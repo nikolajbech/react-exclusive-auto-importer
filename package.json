@@ -1,6 +1,6 @@
 {
-  "name": "auto-import-selected",
-  "displayName": "auto-import-selected",
+  "name": "react-exclusive-auto-importer",
+  "displayName": "react-exclusive-auto-importer",
   "description": "Will import specific elements from a list when saving a file if the element is not imported yet",
   "version": "0.0.1",
   "engines": {
@@ -17,12 +17,12 @@
     "configuration": {
       "title": "Import Specific Elements on Save",
       "properties": {
-        "auto-import-selected.namedImports": {
+        "react-exclusive-auto-importer.namedImports": {
           "type": "object",
           "default": {},
           "description": "Named imports configuration"
         },
-        "auto-import-selected.defaultImports": {
+        "react-exclusive-auto-importer.defaultImports": {
           "type": "object",
           "default": {},
           "description": "Default imports configuration"

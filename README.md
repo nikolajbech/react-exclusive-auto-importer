@@ -1,6 +1,6 @@
-# auto-import-selected README
+# react-exclusive-auto-importer README
 
-This is the README for your extension "auto-import-selected". After writing up a brief description, we recommend including the following sections.
+This is the README for your extension "react-exclusive-auto-importer". After writing up a brief description, we recommend including the following sections.
 
 ## Features
 

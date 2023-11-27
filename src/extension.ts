@@ -3,7 +3,7 @@ import ts from "typescript";
 
 export function activate() {
   const configuration = vscode.workspace.getConfiguration(
-    "auto-import-selected"
+    "react-exclusive-auto-importer"
   );
 
   vscode.workspace.onDidSaveTextDocument(() => {
