@@ -101,8 +101,4 @@ If you encounter any issues or would like to contribute to the development of th
 
 ## Author
 
-Nikolaj Bech Andersen
-
-[Website](https://prozense.com)
-
-[GitHub](https://github.com/nikolajbech)
+Nikolaj Bech Andersen / [Website](https://prozense.com) / [GitHub](https://github.com/nikolajbech)
