@@ -10,6 +10,13 @@
     "Other"
   ],
   "publisher": "Prozense",
+  "icon": "images/icon.png",
+  "keywords": [
+    "auto",
+    "import",
+    "react",
+    "component"
+  ],
   "activationEvents": [
     "onStartupFinished"
   ],
